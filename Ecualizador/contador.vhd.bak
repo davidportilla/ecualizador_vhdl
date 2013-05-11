@@ -1,0 +1,38 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+use IEEE.NUMERIC_STD.all;
+
+ENTITY contador IS
+  GENERIC (width : POSITIVE);
+  PORT 
+  (
+	  clk : in std_logic;
+	  rst : in std_logic;
+    enable : in std_logic;
+		count	: out std_logic_vector (width-1 DOWNTO 0);
+	);
+
+END ENTITY;
+
+ARCHITECTURE arch1 OF contador IS
+  
+  SIGNAL cnt : UNSIGNED(width-1 DOWNTO 0);
+ 
+     BEGIN
+ 
+       pSeq : PROCESS (clk, rst) IS
+       BEGIN
+         IF rst = '1' THEN
+           cnt <= (others => '0');
+         ELSIF clk'event AND clk='1' THEN
+           IF enable='1' THEN
+             cnt <= cnt + 1;
+           END IF;
+         END IF;
+       END PROCESS;
+ 
+       count <= std_logic_vector(cnt);
+       
+END arch1;
+
+--------------------------------------------------------------------------------

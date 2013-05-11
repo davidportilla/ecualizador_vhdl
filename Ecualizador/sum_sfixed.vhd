@@ -1,0 +1,76 @@
+library ieee;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_textio.all;
+use std.textio.all;
+use work.txt_util.all;
+use ieee.fixed_pkg.all;
+
+entity sum_sfixed is
+  port 
+  (a: in std_logic_vector (15 downto 0);
+   b: in std_logic_vector (15 downto 0);
+   rst : in std_logic;
+   suma	: out std_logic_vector (15 downto 0)
+   );
+end entity;
+
+architecture rtl of sum_sfixed is
+
+begin
+
+  process (rst, a, b) is
+    variable a1, b1: sfixed(5 downto -10);
+    variable c1: sfixed(6 downto -10);
+    variable min, max :sfixed(6 downto -10);
+    
+    --variable error : std_logic;
+    --variable line : LINE;
+    
+    --FILE desbordamientos: TEXT open WRITE_MODE is 
+    --"C:\Documents and Settings\David\Escritorio\overflow.txt";
+    
+    begin
+
+    IF (rst = '1') THEN
+      suma <= (others => '0');
+    ELSE
+      a1 := sfixed(a);
+      b1 := sfixed(b);
+      --min := "11000000000000000";
+      --max := "00111111111111111";
+      c1 := a1 + b1;
+
+      --if(c1 > max) then
+      --  suma <= "0111111111111111";
+      --  error := '1';
+      --  write(line, error);
+      --  writeline(desbordamientos, line);
+      --elsif(c1 < min) then
+      --  suma <= "1000000000000000";
+      --  error := '0';
+      --  write(line, error);
+      --  writeline(desbordamientos, line);
+      --else
+        suma(15) <= c1(5);
+        suma(14) <= c1(4);
+        suma(13) <= c1(3);
+        suma(12) <= c1(2);
+        suma(11) <= c1(1);
+        suma(10) <= c1(0);
+        suma(9) <= c1(-1);
+        suma(8) <= c1(-2);
+        suma(7) <= c1(-3);
+        suma(6) <= c1(-4);
+        suma(5) <= c1(-5);
+        suma(4) <= c1(-6);
+        suma(3) <= c1(-7);
+        suma(2) <= c1(-8);
+        suma(1) <= c1(-9);
+        suma(0) <= c1(-10);
+      --end if;
+    END IF;
+
+  end process;
+  
+end rtl;

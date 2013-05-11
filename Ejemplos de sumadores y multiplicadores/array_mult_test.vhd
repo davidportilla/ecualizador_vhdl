@@ -1,0 +1,41 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use work.all;
+
+entity array_mult_test is
+
+end entity array_mult_test;
+
+architecture test of array_mult_test is
+  
+  signal x, y : std_logic_vector(3 downto 0);
+  signal z : std_logic_vector(7 downto 0);
+  
+  begin
+    
+    MULT: entity work.array_mult 
+      port map(x => x, y => y, z => z);
+    
+    estimulos: process
+      begin
+        wait for 50 ns;
+        x <= "0000";
+        y <= "0000";
+        
+        wait for 50 ns;
+        x <= "0001";
+        y <= "0001";
+        
+        wait for 50 ns;
+        x <= "0010";
+        y <= "0100";
+        
+        wait for 50 ns;
+        x <= "0111";
+        y <= "0100";
+        
+        wait;
+        
+    end process estimulos; 
+    
+end architecture test;

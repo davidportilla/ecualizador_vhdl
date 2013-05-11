@@ -1,0 +1,65 @@
+use work.filtro1;
+library ieee;
+use ieee.std_logic_1164.all;
+
+ENTITY filtro1_test IS
+     END filtro1_test;
+     ARCHITECTURE test OF filtro1_test IS
+       -- Declaraciones
+       SIGNAL clk, rst: std_logic;
+       SIGNAL e, s, sx1, sx2, sy, sz, sxr1, sxr11, sxr12, sxr21, sxr22, sx3 : std_logic_vector(15 DOWNTO 0);
+       --TYPE type_test IS 
+       --RECORD
+       --  clk, rst: std_logic;
+       --  e, s : std_logic_vector(15 DOWNTO 0);
+       --END RECORD;
+
+
+     BEGIN
+       -- Cuerpo de las pruebas
+       f : ENTITY work.filtro1
+       PORT MAP(clk => clk, rst => rst, entrada => e, salida => s, 
+       salidax1 => sx1, salidax2 => sx2, saliday => sy, salidaz => sz,
+      salidaxr1 => sxr1, salidaxr11 => sxr11, salidaxr12 => sxr12,
+      salidaxr21 => sxr21, salidaxr22 => sxr22, salidax3 => sx3);
+
+       -- Señal de reloj a 100 MHz
+       PROCESS
+        BEGIN
+         FOR i IN 0 TO 100000000 LOOP
+          clk <= '0', '1' after 5 ns; 
+          WAIT for 10 ns;
+         END LOOP;
+        WAIT;
+       END PROCESS;
+       
+       -- Senal de reset
+       PROCESS
+        BEGIN
+         rst <= '0'; 
+        WAIT for 30 ns;
+         rst <= '1';
+        WAIT for 3 ns;
+         rst <= '0';
+        WAIT;
+       END PROCESS;
+       
+       -- Estímulos
+       PROCESS
+        BEGIN
+        --e <= (others => '0');
+        WAIT for 49 ns;
+
+        e <= "0001011010110010";
+        WAIT for 30 ns;
+
+        e <= "0011111111100000";
+        WAIT for 30 ns;
+
+        e <= "0101110101111001";
+        WAIT for 30 ns;
+
+        WAIT;
+       END PROCESS;
+       
+     END test;

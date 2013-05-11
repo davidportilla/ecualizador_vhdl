@@ -1,0 +1,41 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use work.ripple_carry;
+
+entity carry_bypass is
+  port(
+    a, b: in std_logic_vector (3 downto 0);
+    c_in : in std_logic;
+    suma : out std_logic_vector (3 downto 0);
+    c_out : out std_logic
+  );
+end entity;
+
+architecture rtl of carry_bypass is
+  signal carry : std_logic;
+  signal p : std_logic_vector(3 downto 0);
+  signal pp1, pp2, pppp : std_logic;
+  begin
+    
+    -- Propagate signal
+    XOR0 : entity work.xor_gate port map(a => a(0), b => b(0), c => p(0));
+    XOR1 : entity work.xor_gate port map(a => a(1), b => b(1), c => p(1));
+    XOR2 : entity work.xor_gate port map(a => a(2), b => b(2), c => p(2));
+    XOR3 : entity work.xor_gate port map(a => a(3), b => b(3), c => p(3));
+    
+    RC: entity work.ripple_carry
+        port map(a => a, b => b, c_in => c_in, suma => suma, c_out => carry);
+    
+    AND1: entity work.and_gate
+        port map(a => p(0), b => p(1), c => pp1);
+    
+    AND2: entity work.and_gate
+        port map(a => p(2), b => p(3), c => pp2);
+    
+    AND3: entity work.and_gate
+        port map(a => pp1, b => pp2, c => pppp);
+    
+    MUX: entity work.mux_1bit
+        port map(in0 => carry, in1 => c_in, sel => pppp, output => c_out);
+    
+end rtl;

@@ -1,0 +1,22 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity mux_1bit is
+  port(
+    in0, in1, sel : in std_logic;
+    output : out std_logic
+    );
+end entity mux_1bit;
+
+architecture rtl of mux_1bit is
+  begin
+    process (in0, in1, sel) is
+      begin
+        if sel = '0' then
+          output <= in0 after 1 ns;
+        elsif sel = '1' then
+          output <= in1 after 1 ns;
+        else null;
+        end if;
+    end process;
+end rtl;

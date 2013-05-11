@@ -1,0 +1,71 @@
+library IEEE;
+     use IEEE.STD_LOGIC_1164.all;
+     use IEEE.NUMERIC_STD.all;
+ 
+     ENTITY sumador IS
+       PORT (a : IN std_logic_vector(15 DOWNTO 0); 
+             b : IN std_logic_vector(15 DOWNTO 0);
+             clk : IN std_logic;
+             rst : IN std_logic;  
+             suma : OUT std_logic_vector(15 DOWNTO 0));
+     END sumador;
+ 
+     ARCHITECTURE synth OF sumador IS
+     BEGIN
+       
+       PROCESS (rst, a, b) IS
+         variable signoa : std_logic;
+         variable signob : std_logic;
+         variable a1 : std_logic_vector (15 downto 0);
+         variable b1 : std_logic_vector (15 downto 0);
+         variable resultado : std_logic_vector (15 downto 0);
+         BEGIN
+           IF (rising_edge(rst) OR rst = '1') THEN
+             suma <= (others => '0');
+           ELSIF falling_edge(rst) THEN
+             null;
+           ELSE
+             
+             signoa := a(15);
+             signob := b(15);
+             
+             -- Si los dos numeros son positivos
+             if((signoa = '0') and (signob = '0')) then
+               resultado := std_logic_vector(unsigned(a) + unsigned(b));
+               if resultado(15) = '1' then
+                 suma <= "0111111111111111";
+               else suma <= resultado;
+               end if;
+             end if;
+             
+             -- Si los dos numeros son negativos
+             if((signoa = '1') and (signob = '1')) then
+               -- Pasamos a positivo los dos números
+               a1 := std_logic_vector(unsigned(not(a)) + "0000000000000001");
+               b1 := std_logic_vector(unsigned(not(b)) + "0000000000000001");
+               -- Hay overflow si a o b valen -1
+               if((a="1000000000000000") or (b="1000000000000000")) then
+               resultado := "1000000000000000";
+               else
+                 --Comprobamos si hay overflow en otros casos
+                 resultado := std_logic_vector(unsigned(a1) + unsigned(b1));
+                 if(resultado(15)='1') then
+                   resultado := "1000000000000000";
+                 else -- Si no hay
+                   resultado := std_logic_vector(not(unsigned(a1) + unsigned(b1)) + "0000000000000001"); 
+                 end if;
+               end if;
+               suma <= resultado;
+             end if;
+             
+             -- Si uno es positivo y el otro es negativo
+             if(signoa = not(signob)) then
+               suma <= std_logic_vector(signed(a) + signed(b)); 
+             end if;
+             
+           END IF;
+       END PROCESS;
+       
+     END synth;
+
+--------------------------------------------------------------------------------

@@ -1,0 +1,74 @@
+use work.filtro;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_textio.all;
+use std.textio.all;
+use work.txt_util.all;
+
+ENTITY banco_filtros IS
+  PORT (entrada : IN std_logic_vector(15 DOWNTO 0); 
+        clk : IN std_logic;
+        rst : IN std_logic;  
+        salida0 : OUT std_logic_vector(15 DOWNTO 0);
+        salida1 : OUT std_logic_vector(15 DOWNTO 0);
+        salida2 : OUT std_logic_vector(15 DOWNTO 0);
+        salida3 : OUT std_logic_vector(15 DOWNTO 0);
+        salida4 : OUT std_logic_vector(15 DOWNTO 0);
+        salida5 : OUT std_logic_vector(15 DOWNTO 0);
+        salida6 : OUT std_logic_vector(15 DOWNTO 0));      
+END banco_filtros;
+
+ARCHITECTURE rtl OF banco_filtros IS
+ 
+BEGIN
+
+  FILTRO0: ENTITY work.filtro
+       GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000011111101101",
+        a2 => "1111110000010010",  G => "0000000000001000")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida0);
+       
+  FILTRO1: ENTITY work.filtro
+      GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000011111011011",
+        a2 => "1111110000100100",  G => "0000000000010001")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida1);
+       
+  FILTRO2: ENTITY work.filtro
+       GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000011110110010",
+        a2 => "1111110001000110",  G => "0000000000100010")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida2);
+  
+  FILTRO3: ENTITY work.filtro
+      GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000011101010110",
+        a2 => "1111110010000110",  G => "0000000001000010")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida3);
+       
+  FILTRO4: ENTITY work.filtro
+       GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000011001111100",
+        a2 => "1111110011111100",  G => "0000000001111101")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida4);
+       
+  FILTRO5: ENTITY work.filtro
+       GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "0000010001011011",
+        a2 => "1111110111000111",  G => "0000000011100011")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida5);
+  
+  FILTRO6: ENTITY work.filtro
+       GENERIC MAP
+       (b0 => "0000010000000000", b1 => "0000000000000000",
+        b2 => "1111110000000000", a1 => "1111111101110011",
+        a2 => "1111111100010001",  G => "0000000110001000")
+       PORT MAP(clk => clk, rst => rst, entrada => entrada, salida => salida6);
+
+END rtl;

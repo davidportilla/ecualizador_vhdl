@@ -1,0 +1,195 @@
+-----------------------------------------------------------------------
+--           _ _ _      _ _ _              _ _ _      _ _ _          --
+--          |     | x1 |     |     x2     |     | x3 |     |         --
+--  entrada-|  b0 |----|  +  |------------|  +  |----|  G  |-salida  --
+--          |_ _ _|    |_ _ _|      |     |_ _ _|    |_ _ _|         --
+--           MULT1        | SUM1    |        | SUM4   MULT6          --
+--                        |      _ _|delay1  |                       --
+--           _ _ _ _ _ _ _|     |       |    |_ _ _ _ _ _ _          --
+--          |                   |  z^-1 |                  |         --
+--          |         _ _ _     |_ _ _ _|    _ _ _         |         --
+--       xr1|   xr11 |     |        |y      |     | xr21   |xr2      --
+--          |     |--| -a1 |--------|-------|  b1 |--|     |         --
+--        __|__   |  |_ _ _|     _ _|delay2 |_ _ _|  |   __|__       --
+--       |     |--|   MULT2     |       |    MULT3   |--|     |      --
+--       |  +  |                |  z^-1 |               |  +  |      --
+--       |_ _ _|--|   _ _ _     |_ _ _ _|    _ _ _   |--|_ _ _|      --
+--        SUM2    |  |     |        |z      |     |  |   SUM3        --
+--                |--| -a2 |--------|-------|  b2 |--|               --
+--              xr12 |_ _ _|                |_ _ _| xr22             --
+--                    MULT4                  MULT5                   --
+--                                                                   --
+--      FILTRO IIR, ORDEN 2, SEGUNDA FORMA DIRECTA (a0 = 1024)       --
+-----------------------------------------------------------------------
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+use ieee.std_logic_arith.all;
+
+ENTITY filtro1 IS
+PORT 
+	(
+	  clk : in std_logic;
+	  rst : in std_logic;
+		entrada : in std_logic_vector (15 downto 0);
+		b0, b1, b2, a1, a2, G : in std_logic_vector (15 downto 0);
+		salida		: out std_logic_vector (15 downto 0);
+		-- Para pruebas --------------------------
+		salidax1, salidax2, saliday, salidaz, salidaxr1, salidaxr2,
+		salidaxr11, salidaxr12, salidaxr21, salidaxr22, salidax3 : out std_logic_vector (15 downto 0)
+		------------------------------------------
+	);
+
+END ENTITY;
+
+ARCHITECTURE rtl OF filtro1 IS
+ 
+  ------COEFICIENTES-----
+  --signal b0 : std_logic_vector (15 downto 0);
+  --signal b1 : std_logic_vector (15 downto 0);
+  --signal b2 : std_logic_vector (15 downto 0);
+  --signal a1 : std_logic_vector (15 downto 0);
+  --signal a2 : std_logic_vector (15 downto 0);
+  --signal G  : std_logic_vector (15 downto 0);
+  
+  -----Señales intermedias-----
+  signal x1   : std_logic_vector (15 downto 0);
+  signal xr1  : std_logic_vector (15 downto 0);
+  signal x2   : std_logic_vector (15 downto 0);
+  signal xr2  : std_logic_vector (15 downto 0);
+  signal x3   : std_logic_vector (15 downto 0);
+  signal y    : std_logic_vector (15 downto 0);
+  signal z    : std_logic_vector (15 downto 0);
+  signal xr11 : std_logic_vector (15 downto 0);
+  signal xr12 : std_logic_vector (15 downto 0);
+  signal xr21 : std_logic_vector (15 downto 0);
+  signal xr22 : std_logic_vector (15 downto 0);
+  
+BEGIN
+   
+  -----Definimos los valores de los coeficientes-----
+  -- Normalizados a 2048
+  -- 1 bit de signo, 15 de parte decimal
+  
+  --b0=1024, b1=0, b2=-1024, a1=-2011, a2=988, G=17--
+	--b0 <= "0100000000000000";
+	--b1 <= "0000000000000000";
+	--b2 <= "1100000000000000";
+	--a1 <= "1111110110110000";
+	--a2 <= "0011111001100000";
+	--G  <= "0000000100001111";
+	
+	-----Se multiplica la entrada por b0----
+        MULT1 : entity work.signed_mult 
+                port map(a => entrada, b => b0, clk => clk, rst => rst, producto => x1);
+        --report "the variable x1(7) is " & std_logic'image(x1(7)) & " at time " &time'image(now);
+ 
+         
+	-----Se suma la primera realimentacion-----
+	      SUM1 : entity work.sumador port map(a => x1, b => xr1, clk => clk,
+	       rst => rst, suma => x2);
+	        
+	-----Se calculan las señales de realimentacion-----   
+	
+	     delay1: process (clk, rst)
+	     begin
+	       if (rising_edge(rst) or rst = '1') then
+	         y <= "0000000000000000";
+	       elsif rising_edge(clk) then
+          y <= x2;
+        else
+          null;
+        end if;
+        end process delay1;
+      
+       delay2: process (clk, rst)
+	     begin
+	       if (rising_edge(rst) or rst = '1') then
+	         z <= "0000000000000000";
+	        elsif rising_edge(clk) then
+          z <= y;
+        else
+          null;
+        end if;
+        end process delay2;
+
+	      MULT2 : entity work.signed_mult 
+	              port map(a => y, b => a1, clk => clk, rst => rst, producto => xr11);
+	      MULT3 : entity work.signed_mult 
+	              port map(a => y, b => b1, clk => clk, rst => rst, producto => xr21);
+	            
+	      MULT4 : entity work.signed_mult 
+	              port map(a => z, b => a2, clk => clk, rst => rst, producto => xr12);
+	      MULT5 : entity work.signed_mult 
+	              port map(a => z, b => b2, clk => clk, rst => rst, producto => xr22);
+	        
+	      SUM2 : entity work.sumador port map(a => xr11, b => xr12, clk => clk,
+	       rst => rst, suma => xr1);
+	      SUM3 : entity work.sumador port map(a => xr21, b => xr22, clk => clk,
+	       rst => rst, suma => xr2);
+	        
+	-----Se suma la segunda realimentacion-----     
+	      SUM4 : entity work.sumador port map(a => x2, b => xr2, clk => clk, 
+	      rst => rst, suma => x3);
+	        
+	-----Se multiplica la señal que sale del segundo sumador por la ganancia G-----       
+	      MULT6 : entity work.signed_mult 
+	              port map(a => x3, b => G, clk => clk, rst => rst, producto => salida);
+	      
+	      process(x1) is
+	      begin       
+	      salidax1 <= x1;
+	      end process;
+	      
+	      process(x2) is
+	        begin
+	      salidax2 <= x2;
+	      end process;
+	      
+	      process(y) is
+	        begin
+	      saliday  <= y;
+	      end process;
+	      
+	      process(z) is
+	        begin
+	      salidaz  <= z;
+	      end process;
+	      
+	      process(xr1) is
+	        begin
+	      salidaxr1  <= xr1;
+	      end process;
+	      
+	      process(xr2) is
+	        begin
+	      salidaxr2  <= xr2;
+	      end process;
+	      
+	      process(xr11) is
+	        begin
+	      salidaxr11  <= xr11;
+	      end process;
+	      
+	      process(xr12) is
+	        begin
+	      salidaxr12  <= xr12;
+	      end process;
+	      
+	      process(xr21) is
+	        begin
+	      salidaxr21  <= xr21;
+	      end process;
+	      
+	      process(xr22) is
+	        begin
+	      salidaxr22  <= xr22;
+	      end process;
+	      
+	      process(x3) is
+	        begin
+	      salidax3  <= x3;
+	      end process;
+	
+END rtl;

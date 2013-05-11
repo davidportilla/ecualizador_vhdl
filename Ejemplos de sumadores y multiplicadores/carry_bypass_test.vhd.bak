@@ -1,0 +1,50 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use work.carry_bypass;
+
+entity carry_bypass_test is
+  -- En la simulación se sumarán 2 números de 8 bits cada uno, por lo que habrá
+  -- dos sumadores carry-bypass conectados en cascada.
+end entity;
+
+architecture test of carry_bypass_test is
+  -- Entradas
+  signal a, b : std_logic_vector(7 downto 0);
+  signal c_in : std_logic;
+  -- Acarreo intermedio
+  signal c_int : std_logic;
+  -- Salidas
+  signal suma : std_logic_vector(7 downto 0);
+  signal c_out : std_logic;
+  
+  begin
+    
+    CB1: entity work.carry_bypass 
+      port map(a => a(3 downto 0), b => b(3 downto 0), c_in => c_in,
+              suma => suma(3 downto 0), c_out => c_int);
+    
+    CB2: entity work.carry_bypass 
+      port map(a => a(7 downto 4), b => b(7 downto 4), c_in => c_int,
+              suma => suma(7 downto 4), c_out => c_out);
+    
+    estimulos: process
+      begin
+        wait for 30 ns;
+        a <= "00000000";
+        b <= "00000000";
+        c_in <= '0';
+        
+        wait for 30 ns;
+        a <= "01111111";
+        b <= "10000000";
+        c_in <= '1';
+        
+        wait for 30 ns;
+        a <= "00001111";
+        b <= "00000001";
+        c_in <= '0';
+        
+        wait;
+    end process estimulos;
+    
+end architecture;

@@ -1,0 +1,94 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity signed_mult is
+port 
+	(
+		a		: in std_logic_vector (15 downto 0);
+		b		: in std_logic_vector (15 downto 0);
+		rst : in std_logic;
+		producto	: out std_logic_vector (15 downto 0)
+	);
+
+end entity;
+
+architecture rtl of signed_mult is
+    begin
+      PROCESS (rst, a, b) IS
+        -- Se multiplican los signos para ver el signo del resultado
+        -- Se haya el CA2 de los factores negativos (pasar a positivo)
+        -- Se multiplican los factores (ambos positivos)
+        -- Si el signo dio negativo, se calcula el CA2 del resultado
+        VARIABLE c: std_logic_vector (29 downto 0);
+        VARIABLE a1: std_logic_vector (15 downto 0);
+        VARIABLE b1: std_logic_vector (15 downto 0);
+        BEGIN
+          IF (rising_edge(rst) OR rst = '1') THEN
+            producto <= (others => '0');
+          ELSIF falling_edge(rst) THEN
+            null;
+          ELSE
+           
+          -- CA2 de a y b
+          a1 := std_logic_vector(unsigned(not(a)) + "0000000000000001");
+          b1 := std_logic_vector(unsigned(not(b)) + "0000000000000001"); 
+            
+          -- 0*x=0
+          if((a = "0000000000000000") or (b = "0000000000000000")) then
+            producto <= "0000000000000000";
+          else     
+            -- mas * mas = mas
+            if((a(15)='0') and (b(15)='0')) then
+              producto(15) <= '0';
+              c := std_logic_vector(unsigned(a(14 downto 0)) * unsigned(b(14 downto 0)));
+              producto(14 downto 0) <= c(29 downto 15);
+                        
+            -- menos * menos = mas
+            elsif((a(15)='1') and (b(15)='1')) then
+              if((a = "1000000000000000") and (b = "1000000000000000")) then
+              -- a=b=-1, resultado truncado a 01111111....
+                producto <= "0111111111111111";
+              elsif(a = "1000000000000000") then
+              -- a=-1, resultado = CA2 de b
+                producto <= std_logic_vector(unsigned(not(b)) + "0000000000000001");
+              elsif(b = "1000000000000000") then
+              -- b=-1, resultado = CA2 de a
+                producto <= std_logic_vector(unsigned(not(a)) + "0000000000000001");
+              else -- Ni a ni b valen -1
+                c := std_logic_vector(unsigned(a1(14 downto 0)) * unsigned(b1(14 downto 0)));
+                producto(14 downto 0) <= c(29 downto 15);
+                producto(15) <= '0';
+              end if;
+            
+            -- mas * menos = menos
+            elsif((a(15)='0') and (b(15)='1')) then
+              if (b="1000000000000000") then
+                producto <= std_logic_vector(unsigned(not(a)) + "0000000000000001");
+              else
+                c := std_logic_vector(unsigned(a(14 downto 0)) * unsigned(b1(14 downto 0)));
+                producto(15) <= '1';
+                producto(14 downto 0) <= std_logic_vector
+                  (unsigned(not(c(29 downto 15))) + "000000000000001");
+              end if;
+              
+            -- menos * mas = menos
+            elsif((a(15)='1') and (b(15)='0')) then
+              if (a="1000000000000000") then
+                producto <= std_logic_vector(unsigned(not(b)) + "0000000000000001");
+              else
+                c := std_logic_vector(unsigned(a1(14 downto 0)) * unsigned(b(14 downto 0)));
+                producto(15) <= '1';
+                producto(14 downto 0) <= std_logic_vector
+                  (unsigned(not(c(29 downto 15))) + "000000000000001");
+              end if;
+              
+            else null;
+            end if;
+
+	        end if;
+	        
+          END IF;
+      END PROCESS;
+      
+end rtl;

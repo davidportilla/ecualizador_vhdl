@@ -1,0 +1,24 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity amplificador is
+port 
+	(
+		entrada	: in signed (15 downto 0);
+		salida	: out signed (15 downto 0)
+	);
+
+end entity;
+
+architecture rtl of amplificador is
+    signal decimal : signed (14 downto 0);
+    signal decimal_multiplicada : signed (14 downto 0);
+begin
+    decimal <= entrada (14 downto 0);
+    decimal_multiplicada <= decimal sll 3;
+    
+    salida(15) <= entrada(15);
+    salida (14 downto 0) <= decimal_multiplicada (14 downto 0);
+	
+end rtl;

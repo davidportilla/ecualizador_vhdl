@@ -1,0 +1,142 @@
+{C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/array_mult.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/array_mult.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity and_gate
+-- Loading entity full_adder
+-- Loading entity xor_gate
+-- Loading entity half_adder
+-- Compiling entity array_mult
+-- Compiling architecture rtl of array_mult
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/or_gate.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/or_gate.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity or_gate
+-- Compiling architecture rtl of or_gate
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/full_adder_test.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/full_adder_test.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity full_adder_test
+-- Compiling architecture test of full_adder_test
+-- Loading entity full_adder
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_bypass.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_bypass.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity full_adder
+-- Loading entity ripple_carry
+-- Compiling entity carry_bypass
+-- Compiling architecture rtl of carry_bypass
+-- Loading entity xor_gate
+-- Loading entity and_gate
+-- Loading entity mux_1bit
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/half_adder.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/half_adder.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity and_gate
+-- Loading entity xor_gate
+-- Compiling entity half_adder
+-- Compiling architecture rtl of half_adder
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/ripple_carry.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/ripple_carry.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity full_adder
+-- Compiling entity ripple_carry
+-- Compiling architecture rtl of ripple_carry
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/array_mult_test.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/array_mult_test.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity array_mult_test
+-- Compiling architecture test of array_mult_test
+-- Loading entity and_gate
+-- Loading entity full_adder
+-- Loading entity xor_gate
+-- Loading entity half_adder
+-- Loading entity array_mult
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_select.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_select.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity full_adder
+-- Loading entity ripple_carry
+-- Compiling entity carry_select
+-- Compiling architecture rtl of carry_select
+-- Loading entity mux_1bit
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_bypass_test.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/carry_bypass_test.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity full_adder
+-- Loading entity ripple_carry
+-- Loading entity carry_bypass
+-- Compiling entity carry_bypass_test
+-- Compiling architecture test of carry_bypass_test
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/xor_gate.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/xor_gate.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity xor_gate
+-- Compiling architecture rtl of xor_gate
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/mux_1bit.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/mux_1bit.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity mux_1bit
+-- Compiling architecture rtl of mux_1bit
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/full_adder.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/full_adder.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity full_adder
+-- Compiling architecture rtl of full_adder
+-- Loading entity xor_gate
+-- Loading entity and_gate
+-- Loading entity or_gate
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/ripple_carry_test.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/ripple_carry_test.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading entity full_adder
+-- Loading entity ripple_carry
+-- Compiling entity ripple_carry_test
+-- Compiling architecture test of ripple_carry_test
+
+} {} {}} {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/and_gate.vhd} {1 {vcom -work work -2002 -explicit {C:/Modeltech_pe_edu_10.1c/examples/DCSE mejoras/and_gate.vhd}
+Model Technology ModelSim PE Student Edition vcom 10.1c Compiler 2012.07 Jul 28 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity and_gate
+-- Compiling architecture rtl of and_gate
+
+} {} {}}

@@ -1,0 +1,17 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use work.and_gate;
+use work.xor_gate;
+
+entity half_adder is
+  port(
+    a, b : in std_logic;
+    sum, c_out : out std_logic
+    );
+end entity half_adder;
+
+architecture rtl of half_adder is
+  begin  
+    XOR1 : entity work.xor_gate port map(a => a, b => b, c => sum);
+    AND1 : entity work.and_gate port map(a => a, b => b, c => c_out);
+end architecture rtl;
